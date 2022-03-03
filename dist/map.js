@@ -19,7 +19,7 @@ function $(selector)
 
   return self
 }
-
+console.log("map.js script is runned")
 // // Example library calls
 // $('h1').attr('class', 'new-class')
 
