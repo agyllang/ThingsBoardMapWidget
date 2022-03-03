@@ -20,7 +20,7 @@
 //   return self
 // }
 console.log("map.js script is runned")
-(function () {
+function $() {
 var Map
 
   // Create a LatLng object
@@ -42,22 +42,22 @@ var Map
   //     position: center,
   //     map: map
   // });
-  // if (typeof window.define === 'function' && (window.define.amd != null)) {
-  //   define(function() {
-  //     return {
-  //       Map: Map,
+  if (typeof window.define === 'function' && (window.define.amd != null)) {
+    define(function() {
+      return {
+        Map: Map,
        
-  //     };
-  //   });
-  // } else if (typeof module !== 'undefined' && (module.exports != null)) {
-  //   module.exports = {
-  //     Map: Map,
-  //   };
-  // } else {
-  //   window.Map = Map;
+      };
+    });
+  } else if (typeof module !== 'undefined' && (module.exports != null)) {
+    module.exports = {
+      Map: Map,
+    };
+  } else {
+    window.Map = Map;
 
-  // }
-}).call(this)
+  }
+}
 // // Example library calls
 // $('h1').attr('class', 'new-class')
 
