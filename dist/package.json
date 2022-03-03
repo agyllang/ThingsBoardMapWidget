@@ -1,0 +1,11 @@
+{
+    "name": "Ambiductor Thingsboard Custom Map",
+    "version": "0.1",
+    "description": "Google Maps Custom Widget",
+    "main": "dist/map.js",
+    "repository": {
+      "type": "git",
+      "url": "git@github.com:agyllang/ThingsBoardMapWidget.git"
+    },
+    "author": "Albin"
+  }
