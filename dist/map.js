@@ -307,8 +307,4 @@ class AmbiMap{
 // {
 //   alert("I was clicked")
 // })
-( function hello(text) {
-  const div = document.createElement('div');
-  div.textContent = `Hello ${text}`;
-  document.body.appendChild(div);
-})
+// 
