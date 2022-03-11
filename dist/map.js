@@ -1,6 +1,5 @@
 class AmbiMap{
-  constructor(divIDstring, parentElement, data){
-      this.dataSources = getDataSources(data);
+  constructor(divIDstring, parentElement, ){
       this.divElement = document.createElement('div');
       this.divElement.id = divIDstring;
       this.divElement.innerHTML = "<h1>HELLO WORLD!</h1>";
