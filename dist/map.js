@@ -17,7 +17,7 @@ class GoogleMapsApi {
    */
   constructor() {
     // api key for google maps
-    this.apiKey = 'your api key here';
+    this.apiKey = '';
 
     // set a globally scoped callback if it doesn't already exist
     if (!window._GoogleMapsApi) {
