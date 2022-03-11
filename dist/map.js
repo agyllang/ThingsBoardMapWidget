@@ -10,6 +10,7 @@
 //     parentElement.appendChild(this.divElement);
 //   }
 // }
+console.log("map.js imported")
 class GoogleMapsApi {
   /**
    * Constructor set up config.
