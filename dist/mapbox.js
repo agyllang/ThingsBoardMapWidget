@@ -33,9 +33,10 @@ class MapBox {
   init(){
     return this.map
   }
-  setPin(){
+  setPin(p){
+      console.log("setPin param",p)
     //LngLat=[11.9810, 57.6717]
-    return new mapboxgl.Marker()
+     new mapboxgl.Marker()
     .setLngLat([11.9810, 57.6717])
     .addTo(this.map);
 
