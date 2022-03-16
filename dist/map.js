@@ -1,15 +1,16 @@
-// class AmbiMap {
-//   constructor(divIDstring, parentElement) {
+class AmbiMap {
+  constructor(divIDstring, parentElement) {
+    console.log("AmbiMappp")
 
-//     this.divElement = document.createElement('div');
+    this.divElement = document.createElement('div');
 
-//     this.divElement.id = divIDstring;
+    this.divElement.id = divIDstring;
 
-//     this.divElement.innerHTML = "<h1>HELLO WORLD!</h1>";
-//     // this.dataSources = data;
-//     parentElement.appendChild(this.divElement);
-//   }
-// }
+    this.divElement.innerHTML = "<h1>HELLO WORLD!</h1>";
+    // this.dataSources = data;
+    parentElement.appendChild(this.divElement);
+  }
+}
 
 
 console.log("map.js imported")
