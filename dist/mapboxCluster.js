@@ -92,6 +92,7 @@ class MapBox {
   //   });
   // }
   cluster (){
+    console.log("cluster() initiated")
   this.map.on('load', () => {
     // Add a new source from our GeoJSON data and
     // set the 'cluster' option to true. GL-JS will
