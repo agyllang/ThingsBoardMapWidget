@@ -26,8 +26,8 @@ class MapBox {
   this.map= new mapboxgl.Map({
   container: containerId, // container ID
   style: 'mapbox://styles/mapbox/streets-v11', // style URL
-  center: [18.0686, 59.3294], // starting position [lng, lat]
-  zoom: 13 // starting zoom
+  center: [11.981, 57.671], // starting position [lng, lat]
+  zoom: 5 // starting zoom
   });
   }
   init(){
@@ -36,6 +36,7 @@ class MapBox {
   setPin(lngLat){
       console.log("setPin() param:",lngLat)
     //LngLat=[11.9810, 57.6717]
+    //göteborg
     let m = new mapboxgl.Marker()
     .setLngLat(lngLat)
     .addTo(this.map);
