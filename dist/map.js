@@ -1,4 +1,4 @@
-console.log("map.js imported 1")
+console.log("map.js imported 11")
 class AmbiMap {
   constructor(divIDstring, parentElement) {
     console.log("AmbiMap constructor")
@@ -19,16 +19,19 @@ class MapBox {
   /**
    * Constructor set up config.
    */
-  constructor() {
-    console.log("MapBox constructor")
+  constructor(string) {
+    console.log("MapBox constructor",string)
 
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYWxiaW5hbWJpZHVjdG9yIiwiYSI6ImNsMHQ4eWFwcTA0dTYzZXFscno1NHp4M3MifQ.QrzZer4qGPc9Ck19Z6Pa9Q';
+  //mapboxgl.accessToken = 'pk.eyJ1IjoiYWxiaW5hbWJpZHVjdG9yIiwiYSI6ImNsMHQ4eWFwcTA0dTYzZXFscno1NHp4M3MifQ.QrzZer4qGPc9Ck19Z6Pa9Q';
   this.map= new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/mapbox/streets-v11', // style URL
   center: [-74.5, 40], // starting position [lng, lat]
   zoom: 9 // starting zoom
   });
+  }
+  init(){
+    return this.map
   }
 }
  
