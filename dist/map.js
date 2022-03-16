@@ -13,7 +13,7 @@ class AmbiMap {
 }
 
 
-console.log("map.js imported")
+console.log("map.js imported 3")
 class MapBox {
   /**
    * Constructor set up config.
