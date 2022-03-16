@@ -1,4 +1,4 @@
-console.log("map.js imported 33");
+console.log("mapboxCluster.js imported");
 class AmbiMap {
   constructor(divIDstring, parentElement) {
     console.log("AmbiMap constructor");
