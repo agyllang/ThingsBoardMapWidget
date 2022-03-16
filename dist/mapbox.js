@@ -1,4 +1,4 @@
-console.log("map.js imported 111")
+console.log("map.js imported 1111")
 class AmbiMap {
   constructor(divIDstring, parentElement) {
     console.log("AmbiMap constructor")
@@ -26,11 +26,18 @@ class MapBox {
   this.map= new mapboxgl.Map({
   container: containerId, // container ID
   style: 'mapbox://styles/mapbox/streets-v11', // style URL
-  center: [-74.5, 40], // starting position [lng, lat]
+  center: [18.0686, 59.3294], // starting position [lng, lat]
   zoom: 9 // starting zoom
   });
   }
   init(){
     return this.map
+  }
+  setPin(LngLat=[11.9810, 57.6717]){
+    
+    new mapboxgl.Marker()
+    .setLngLat(LngLat)
+    .addTo(this.map);
+
   }
 }
