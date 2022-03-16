@@ -27,13 +27,13 @@ class MapBox {
   container: containerId, // container ID
   style: 'mapbox://styles/mapbox/streets-v11', // style URL
   center: [18.0686, 59.3294], // starting position [lng, lat]
-  zoom: 9 // starting zoom
+  zoom: 13 // starting zoom
   });
   }
   init(){
     return this.map
   }
-  setPin(lngLat=[11.9810, 57.6717]){
+  setPin(lngLat){
       console.log("setPin() param:",lngLat)
     //LngLat=[11.9810, 57.6717]
      new mapboxgl.Marker()
