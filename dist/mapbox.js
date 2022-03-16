@@ -1,4 +1,4 @@
-console.log("map.js imported 3")
+console.log("map.js imported 33")
 class AmbiMap {
   constructor(divIDstring, parentElement) {
     console.log("AmbiMap constructor")
