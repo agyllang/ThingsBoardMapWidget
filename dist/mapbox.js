@@ -22,7 +22,7 @@ class MapBox {
   constructor(string, containerId) {
     console.log("MapBox constructor",string)
 
-  //mapboxgl.accessToken = 'pk.eyJ1IjoiYWxiaW5hbWJpZHVjdG9yIiwiYSI6ImNsMHQ4eWFwcTA0dTYzZXFscno1NHp4M3MifQ.QrzZer4qGPc9Ck19Z6Pa9Q';
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYWxiaW5hbWJpZHVjdG9yIiwiYSI6ImNsMHQ4eWFwcTA0dTYzZXFscno1NHp4M3MifQ.QrzZer4qGPc9Ck19Z6Pa9Q';
   this.map= new mapboxgl.Map({
   container: containerId, // container ID
   style: 'mapbox://styles/mapbox/streets-v11', // style URL
