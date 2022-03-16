@@ -1,6 +1,7 @@
+console.log("map.js imported 1")
 class AmbiMap {
   constructor(divIDstring, parentElement) {
-    console.log("AmbiMappp")
+    console.log("AmbiMap constructor")
 
     this.divElement = document.createElement('div');
 
@@ -13,12 +14,14 @@ class AmbiMap {
 }
 
 
-console.log("map.js imported 33 ")
+
 class MapBox {
   /**
    * Constructor set up config.
    */
   constructor() {
+    console.log("MapBox constructor")
+
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWxiaW5hbWJpZHVjdG9yIiwiYSI6ImNsMHQ4eWFwcTA0dTYzZXFscno1NHp4M3MifQ.QrzZer4qGPc9Ck19Z6Pa9Q';
   this.map= new mapboxgl.Map({
   container: 'map', // container ID
