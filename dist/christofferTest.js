@@ -1,6 +1,6 @@
 console.log("christofferTest.js imported");
 
-class Map {
+class MapBox {
   /**
    * Constructor set up config.
    */
