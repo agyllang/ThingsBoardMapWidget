@@ -1,112 +1,151 @@
-console.log("christofferTest.js is running test 1.");
+console.log("christofferTest.js imported");
 
-class Map{
-    constructor(accessToken, containerID, amountOfMarkers=30){
-        console.log("accestoken", accessToken);
-        console.log("containerID", containerID);
+class Map {
+  /**
+   * Constructor set up config.
+   */
+  constructor(string, containerId, token) {
+    console.log("MapBox constructor string", string);
+    console.log("MapBox constructor containerId", containerId);
+    console.log("MapBox constructor token ", token);
 
-        mapboxgl.accessToken = accessToken;
-        this.map = new mapboxgl.Map({
-            container: containerID,
-            style: 'mapbox://styles/mapbox/light-v10',
-            center: [-96, 37.8],
-            zoom: 3
+    mapboxgl.accessToken = token;
+    this.map = new mapboxgl.Map({
+      container: containerId, // container ID
+      style: "mapbox://styles/mapbox/streets-v11", // style URL
+      center: [11.981, 57.671], // starting position [lng, lat]
+      zoom: 5, // starting zoom
+    });
+  }
+  init() {
+    return this.map;
+  }
+  setPin(lngLat) {
+    console.log("setPin() param:", lngLat);
+    //LngLat=[11.9810, 57.6717]
+    //göteborg
+    let m = new mapboxgl.Marker().setLngLat(lngLat).addTo(this.map);
+  }
+
+  cluster() {
+    console.log("cluster() initiated");
+    this.map.on("load", () => {
+      // Add a new source from our GeoJSON data and
+      // set the 'cluster' option to true. GL-JS will
+      // add the point_count property to your source data.
+      this.map.addSource("earthquakes", {
+        type: "geojson",
+        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+        // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+        data: "https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson",
+        cluster: true,
+        clusterMaxZoom: 14, // Max zoom to cluster points on
+        clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+      });
+      //a comment for Christoffer
+      this.map.addLayer({
+        id: "clusters",
+        type: "circle",
+        source: "earthquakes",
+        filter: ["has", "point_count"],
+        paint: {
+          // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+          // with three steps to implement three types of circles:
+          //   * Blue, 20px circles when point count is less than 100
+          //   * Yellow, 30px circles when point count is between 100 and 750
+          //   * Pink, 40px circles when point count is greater than or equal to 750
+          "circle-color": [
+            "step",
+            ["get", "point_count"],
+            "#51bbd6",
+            100,
+            "#f1f075",
+            750,
+            "#f28cb1",
+          ],
+          "circle-radius": [
+            "step",
+            ["get", "point_count"],
+            20,
+            100,
+            30,
+            750,
+            40,
+          ],
+        },
+      });
+
+      this.map.addLayer({
+        id: "cluster-count",
+        type: "symbol",
+        source: "earthquakes",
+        filter: ["has", "point_count"],
+        layout: {
+          "text-field": "{point_count_abbreviated}",
+          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-size": 12,
+        },
+      });
+
+      this.map.addLayer({
+        id: "unclustered-point",
+        type: "circle",
+        source: "earthquakes",
+        filter: ["!", ["has", "point_count"]],
+        paint: {
+          "circle-color": "#11b4da",
+          "circle-radius": 4,
+          "circle-stroke-width": 1,
+          "circle-stroke-color": "#fff",
+        },
+      });
+
+      // inspect a cluster on click
+      this.map.on("click", "clusters", (e) => {
+        const features = this.map.queryRenderedFeatures(e.point, {
+          layers: ["clusters"],
         });
-        /*
-        const data = new TestData(amountOfMarkers);
-        this.geojson = data.getGeojson();
-        this.addMarkers(this.map);
-        this.map.on('click', ()=>{
-            const len = this.geojson.features.length/2;
-            for(let i = 0; i < len; i++){
-               const el = document.getElementById('marker-' + i);
-               el.style.backgroundImage = 'url("./PNG/sad.png")';     
-            }
-        });
-        this.map.on('dblclick', ()=>{
-            const len = this.geojson.features.length/2;
-            for(let i = 0; i < len; i++){
-               const el = document.getElementById('marker-' + i);
-               el.style.backgroundImage = 'url("./PNG/happy.png")';
-            }
-        });
-        */
-    }
-    init() {
-        return this.map;
-      }
-    /*
-    addMarkers(parent){
-        for(let x = 0; x < this.geojson.features.length; x++){
-            const feature = this.geojson.features[x];
-            const el = document.createElement('div');
-            el.className = 'marker';
-            el.id = 'marker-' + x;
+        const clusterId = features[0].properties.cluster_id;
+        this.map
+          .getSource("earthquakes")
+          .getClusterExpansionZoom(clusterId, (err, zoom) => {
+            if (err) return;
 
-            // make a marker for each feature and add to the map
-            new mapboxgl.Marker(el).setLngLat(feature.geometry.coordinates).addTo(parent);
-            new mapboxgl.Marker(el)
-            .setLngLat(feature.geometry.coordinates)
-            .setPopup(
-              new mapboxgl.Popup({ offset: 25 }) // add popups
-                .setHTML(
-                  `<h3>${feature.properties.title}</h3>
-                  <p>${feature.properties.description}</p>`
-                )
-            )
-            .addTo(parent);
+            this.map.easeTo({
+              center: features[0].geometry.coordinates,
+              zoom: zoom,
+            });
+          });
+      });
 
+      // When a click event occurs on a feature in
+      // the unclustered-point layer, open a popup at
+      // the location of the feature, with
+      // description HTML from its properties.
+      this.map.on("click", "unclustered-point", (e) => {
+        const coordinates = e.features[0].geometry.coordinates.slice();
+        const mag = e.features[0].properties.mag;
+        const tsunami = e.features[0].properties.tsunami === 1 ? "yes" : "no";
+
+        // Ensure that if the map is zoomed out such that
+        // multiple copies of the feature are visible, the
+        // popup appears over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
         }
-       
 
-    }
-     */
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(`magnitude: ${mag}<br>Was there a tsunami?: ${tsunami}`)
+          .addTo(map);
+      });
 
+      this.map.on("mouseenter", "clusters", () => {
+        this.map.getCanvas().style.cursor = "pointer";
+      });
+      this.map.on("mouseleave", "clusters", () => {
+        this.map.getCanvas().style.cursor = "";
+      });
+    });
+  }
 }
-
-/*
-class TestData{
-    constructor(amountOfPoints){
-        this.geojson = this.createRandomData(amountOfPoints);
-    }
-    getGeojson(){
-        return this.geojson;
-    }
-    createRandomData(amount){
-        
-        const geojson = {
-            type: "FeatureCollection",
-            features: [],
-        }
-        for(let i = 0; i < amount; i++){
-            const longitude = this.randomLongitude();
-            const latitude = this.randomLatitdue();
-            geojson.features.push({
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                coordinates: [longitude, latitude]
-            },
-            properties: {
-                title: "Point id: " + i,
-                description: "description:<br>" + 
-                " longitude: " + longitude.toFixed(3) + "<br>"+
-                "latitude: " + latitude.toFixed(3),
-            }
-        });
-        }
-        return geojson;
-    }
-    randomLatitdue(){
-        //const latitude = Math.random() * 170 - 85;
-        const latitude = Math.random() * 15 + 50;
-        return latitude;
-    }
-    randomLongitude(){
-        //const longitude = Math.random() * 360 - 180;
-        const longitude = Math.random() * 10 + 5;
-        return longitude;
-    }
-}
-*/
-
